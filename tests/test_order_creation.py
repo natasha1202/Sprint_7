@@ -1,3 +1,4 @@
+import allure
 import pytest
 import requests
 
@@ -15,6 +16,8 @@ class TestOrderCreation:
                                  None
                               ]
                              )
+    @allure.title("Тест проверяет создание заказа. Позитивный сценарий")
+    @allure.description("Тест проверяет, что можно создать заказ с разными цветами")
     def test_order_creation_success(self, order, color):
         data = {
             "firstName": order.get('first_name'),

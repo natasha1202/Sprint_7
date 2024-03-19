@@ -7,12 +7,6 @@ from helpful_classes.helper import Helper
 
 
 @pytest.fixture(scope='function')
-def courier():
-    data = {'login': 'qtgbolhunp', 'password': 'topfrekupk'}
-    return data
-
-
-@pytest.fixture(scope='function')
 def order():
     first_name = Helper.generate_random_string(14)
     last_name = Helper.generate_random_string(14)

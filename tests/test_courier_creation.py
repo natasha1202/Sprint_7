@@ -11,7 +11,9 @@ from helpful_classes.user_generator import UserGenerator
 @allure.epic("Создание курьера")
 class TestCourierCreation:
 
-    @allure.description('Создание курьера. Позитивный сценарий')
+    @allure.title('Создание курьера. Позитивный сценарий')
+    @allure.description('Успешное создание курьера в системе. '
+                        'Проверяется корректность кода ответа и сообщения о создании курьера')
     def test_courier_creation_positive(self):
         new_courier = Helper.generate_courier_data()
         payload = {'login': new_courier.get('login'),
@@ -26,7 +28,9 @@ class TestCourierCreation:
         courier_id = response_login.json()['id']
         Helper.delete_courier(ApiUrl.DELETE_COURIER_API_URL,courier_id)
 
-    @allure.description('Сохдание курьера с уже существующими данными')
+    @allure.title('Сохдание курьера с уже существующими данными')
+    @allure.description('Сохдание курьера с данными идентичными для уже существующего курьера '
+                        'Проверяется код ответа и сообщение об ошибке')
     def test_create_duplicate_courier(self):
         new_courier = UserGenerator.register_new_courier_and_return_login_password()
         payload = {'login': new_courier[0],
@@ -60,11 +64,11 @@ class TestCourierCreation:
                                  )
                               ]
                              )
+    @allure.title('Тест на проверку заполнения обязательных полей при создании курьера')
     @allure.description('Тест проверяет, что если хотя бы одно из полей не заполнено при создании, '
                         'то курьер не создается')
     def test_create_courier_not_all_mandatory_fields_filled(self, login, password, first_name):
         payload = {'login': login, 'password': password, 'first_name': first_name}
-        print(payload)
         response = requests.post(ApiUrl.CREATE_COURIER_API_URL, data=payload)
         Assertions.assert_code_status(response, 400)
         Assertions.assert_json_value_by_name(response,

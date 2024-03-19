@@ -11,9 +11,9 @@ from helpful_classes.user_generator import UserGenerator
 @allure.epic("Логин курьера в системе")
 class TestCourierLogin:
 
-
-
-    @allure.description("Тест проверяет авторизацию существующего курьера. Позитивный сценарий")
+    @allure.title("Тест проверяет авторизацию существующего курьера. Позитивный сценарий")
+    @allure.description("Тест проверяет. что зарегистированный курьер может успешно зайти в систему "
+                        "и в ответе будет возвращен id клиента")
     def test_courier_login_with_correct_credentials(self):
         new_courier = UserGenerator.register_new_courier_and_return_login_password()
         payload = {
@@ -34,7 +34,9 @@ class TestCourierLogin:
                                  (UserGenerator.register_new_courier_and_return_login_password(), 1)
                               ]
                              )
-    @allure.description("Тест проверяет авторизацию с незаполненным обязательным полем")
+    @allure.title("Авторизацию с незаполненным обязательным полем")
+    @allure.description("Тест проверяет, что если хотя бы одно поле не заполнено, но авторизация не проходит "
+                        "Происходит проверка сообщения об ошибке")
     def test_courier_login_without_login_or_pwd(self, courier, data_flag):
         data = Helper.set_data_with_none(courier, data_flag)
 
@@ -57,7 +59,9 @@ class TestCourierLogin:
                                  (UserGenerator.register_new_courier_and_return_login_password(), 1)
                               ]
                              )
-    @allure.description("Тест проверяет авторизацию с неверно заполненным логином или паролем")
+    @allure.title("Авторизацию с неверно заполненным логином или паролем")
+    @allure.description("Тест проверяет авторизацию с неверно заполненным логином или паролем, "
+                        "Авторизация отклоняется и происходит проверка сообщения об ошибке")
     def test_courier_login_with_wrong_login_or_pwd(self, courier, data_flag):
         data = Helper.set_data_with_random_value(courier, data_flag)
 
@@ -74,7 +78,9 @@ class TestCourierLogin:
         courier_id = response1.json()['id']
         Helper.delete_courier(ApiUrl.DELETE_COURIER_API_URL, courier_id)
 
-    @allure.description("Тест проверяет авторизацию незарегистрированного курьера")
+    @allure.title("Тест проверяет авторизацию незарегистрированного курьера")
+    @allure.description("Тест проверяет, что незарегистрированный курьер не может авторизоваться в системе "
+                        "Происходит проверка сообщения об ошибке")
     def test_courier_login_with_correct_credentials_not_registred_courier(self):
         new_courier = Helper.generate_courier_data()
         data = {

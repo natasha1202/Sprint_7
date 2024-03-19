@@ -9,7 +9,8 @@ from helpful_classes.assertions import Assertions
 
 class TestOrderList:
 
-    @allure.description("Тест проверяет, что метод возвращает список заказов")
+    @allure.title("Тест проверяет, что метод возвращает список заказов")
+    @allure.description("Происходит запрос списка заказов в системе с параметром limit количества заказов")
     def test_get_order_list(self):
         params = {'limit': random.randint(1,3)}
         response = requests.get(ApiUrl.LIST_ORDERS_API_URL, params=params, timeout=(10, 30))
